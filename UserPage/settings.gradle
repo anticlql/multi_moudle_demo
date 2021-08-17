@@ -1,0 +1,4 @@
+rootProject.name = "UserPage"
+include ':app'
+include ':module_user'
+include ':export_user'

@@ -1,0 +1,37 @@
+plugins {
+    id 'java-library'
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    // 依赖gradle
+    implementation gradleApi()
+    // gradle工具库
+    implementation "com.android.tools.build:gradle:4.2.2"
+}
+
+gradlePlugin {
+    plugins {
+        apkrename {
+            id = 'com.example.plugin.apkrename'
+            implementationClass = 'com.example.apkrename_plugin.ApkRename'
+        }
+    }
+}
+
+publishing {
+    publications {
+        ApkRename(MavenPublication) {
+            groupId = 'com.example.plugin'
+            artifactId = 'apkrename'
+            version = '1.0.0'
+            from components.java
+        }
+    }
+}

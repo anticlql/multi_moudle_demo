@@ -1,0 +1,105 @@
+plugins {
+    id 'com.android.application'
+    id 'com.example.plugin.hello'
+    id 'com.example.plugin.apkrename'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.example.mainpage"
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    /* 两个重要的概念
+    一个就是我们反复提到的Task（任务），构建的基本单元；
+    另一个就是我们即将用到的Extension（扩展），通过扩展属性可以定制构建过程和构建产物。
+    *
+    */
+    flavorDimensions 'normal'
+    productFlavors {
+        qq {
+            dimension 'normal'
+        }
+        baidu {
+            dimension 'normal'
+        }
+    }
+}
+
+user {
+    name '+++++++++++++++++'
+    password '123456'
+}
+
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // 引入自定义的组件
+    implementation 'com.example.module_home:ModuleHome:1.0.2'
+    // 这里不用关注组件依赖了什么组件，会自动依赖进来
+    implementation 'com.example.module_user:ModuleUser:1.0.0'
+
+    // 阿里ARouter
+    implementation 'com.alibaba:arouter-api:1.5.2'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.5.2'
+
+}
+
+// 普通的自定义 Task
+/*
+task testBoth {
+    doFirst {
+        println 'This is executed first during the execution phase.' // doFirst 中的代码在执行阶段执行
+    }
+    doLast {
+        println 'This is executed last during the execution phase.' // doLast 中的代码在执行阶段执行
+    }
+    println 'This is executed during the configuration phase as well.' // 非 doFirst 或者 doLast 中的代码，在配置阶段执行
+}
+
+// 继承自 Copy 的 TasK
+task copyPublicApk(type: Copy) {
+    doFirst {
+        println("-----------> copy the new pubic apk begin")
+    }
+    // from, into, rename 都继承自 Copy，所以即使直接写也是在执行阶段执行
+    from 'build/outputs/apk/baidu/debug/app-baidu-debug.apk'
+    into file('src/privateApp/assets')
+    rename { String fileName ->
+        fileName = "baiduDebug.apk"
+    }
+    doLast {
+        println("-----------> copy the new pubic apk end")
+    }
+}
+*/

@@ -1,0 +1,45 @@
+plugins {
+    id 'java-library'
+    // 引入 Gradle API 相关的 jar 包。
+    // 为了方便起见，可以通过 gradle 插件 java-gradle-plugin 来引入 Java 插件，
+    // 引入 Gradle API 相关依赖以及生成插件相关的描述符
+    id 'java-gradle-plugin'
+    //发布插件到 Maven 仓库和发布普通的 jar 包一样，需要用到 maven-publish 插件
+    id 'maven-publish'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+// 指定插件的 ID 和插件的入口类
+gradlePlugin {
+    plugins {
+        hello {
+            id = 'com.example.plugin.hello'
+            // 插件的逻辑就是指定的入口类中的 apply 方法中的代码
+            implementationClass = 'com.example.hello_library.HelloPlugin'
+        }
+        // zai这也可以指定多个插件
+        /*googbye{
+            id = 'com.robothy.goodbye'
+            implementationClass = 'com.robothy.GoodbyePlugin'
+        }*/
+    }
+}
+
+
+
+
+// 执行publishToMavenLocal，也可以通过url指定 提交的地址
+publishing {
+    publications {
+        hello(MavenPublication) {
+            groupId = 'com.example.plugin'
+            artifactId = 'hello'
+            version = '1.0.0'
+            from components.java
+        }
+    }
+}

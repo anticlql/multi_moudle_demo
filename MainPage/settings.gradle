@@ -1,0 +1,14 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = "MainPage"
+include ':app'
+include ':hello_library'
+
+include ':apkrename_plugin'
+
+println 'This is executed during the initialization phase.'
